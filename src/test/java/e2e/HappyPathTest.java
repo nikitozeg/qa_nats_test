@@ -2,12 +2,9 @@ package e2e;
 
 import io.nats.client.Message;
 import io.nats.client.Subscription;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import support.BaseIntegrationTest;
 import support.DbHelper;
-import support.NatsHelper;
 import support.OrderFactory;
 
 import java.util.Optional;
@@ -19,27 +16,7 @@ import static support.TestConfig.EVENT_TIMEOUT;
 import static support.TestConfig.SUBJ_ORDERS_CONFIRMED;
 import static support.TestConfig.SUBJ_ORDERS_CREATE;
 
-class HappyPathTest {
-
-    private static NatsHelper nats;
-    private static DbHelper db;
-
-    @BeforeAll
-    static void setUp() throws Exception {
-        nats = NatsHelper.connect();
-        db = DbHelper.connect();
-    }
-
-    @AfterAll
-    static void tearDown() throws Exception {
-        nats.close();
-        db.close();
-    }
-
-    @BeforeEach
-    void resetDb() throws Exception {
-        db.truncateAll();
-    }
+class HappyPathTest extends BaseIntegrationTest {
 
     @Test
     void buyOrderIsConfirmedAndPersisted() throws Exception {
