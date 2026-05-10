@@ -25,6 +25,18 @@ public final class OrderFactory {
         return new OrderFactory(n);
     }
 
+    public static OrderFactory validSell(String symbol) {
+        return validBuy(symbol).side("SELL");
+    }
+
+    public static String uniqueSymbol() {
+        return "T" + UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
+    }
+
+    public OrderFactory side(String value)    { node.put("side", value);     return this; }
+    public OrderFactory quantity(int value)   { node.put("quantity", value); return this; }
+    public OrderFactory price(double value)   { node.put("price", value);    return this; }
+
     public String orderId() {
         return node.get("order_id").asText();
     }
