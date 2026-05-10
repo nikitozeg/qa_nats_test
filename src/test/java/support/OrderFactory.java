@@ -33,9 +33,12 @@ public final class OrderFactory {
         return "T" + UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
     }
 
+    public OrderFactory orderId(String value) { node.put("order_id", value); return this; }
+    public OrderFactory symbol(String value)  { node.put("symbol", value);   return this; }
     public OrderFactory side(String value)    { node.put("side", value);     return this; }
     public OrderFactory quantity(int value)   { node.put("quantity", value); return this; }
     public OrderFactory price(double value)   { node.put("price", value);    return this; }
+    public OrderFactory remove(String field)  { node.remove(field);          return this; }
 
     public String orderId() {
         return node.get("order_id").asText();

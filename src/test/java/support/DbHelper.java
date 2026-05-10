@@ -28,6 +28,17 @@ public final class DbHelper implements AutoCloseable {
         }
     }
 
+    public int countOrders(String orderId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM orders WHERE order_id = ?::uuid";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, orderId);
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getInt(1);
+            }
+        }
+    }
+
     public Optional<Integer> findPositionQty(String symbol) throws SQLException {
         String sql = "SELECT quantity FROM positions WHERE symbol = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {

@@ -35,6 +35,10 @@ public final class NatsHelper implements AutoCloseable {
         connection.publish(subject, json.getBytes(StandardCharsets.UTF_8));
     }
 
+    public void publishRaw(String subject, byte[] payload) {
+        connection.publish(subject, payload);
+    }
+
     public Optional<Message> awaitMessageForOrder(Subscription sub, String orderId, Duration timeout)
             throws InterruptedException {
         Instant deadline = Instant.now().plus(timeout);
