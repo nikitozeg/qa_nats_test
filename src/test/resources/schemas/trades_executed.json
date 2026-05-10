@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "trades.executed",
+  "type": "object",
+  "required": ["order_id", "symbol", "side", "quantity", "executed_at"],
+  "properties": {
+    "order_id": { "type": "string", "format": "uuid" },
+    "symbol": { "type": "string", "minLength": 1, "maxLength": 10 },
+    "side": { "type": "string", "enum": ["BUY", "SELL"] },
+    "quantity": { "type": "integer", "exclusiveMinimum": 0 },
+    "executed_at": { "type": "string", "format": "date-time" }
+  }
+}

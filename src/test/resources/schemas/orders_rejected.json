@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "orders.rejected",
+  "type": "object",
+  "required": ["order_id", "status"],
+  "properties": {
+    "order_id": { "type": "string" },
+    "status": { "type": "string", "const": "REJECTED" },
+    "reason": { "type": ["string", "null"] }
+  }
+}

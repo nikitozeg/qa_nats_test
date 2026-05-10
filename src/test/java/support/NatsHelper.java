@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public final class NatsHelper implements AutoCloseable {
@@ -57,6 +59,27 @@ public final class NatsHelper implements AutoCloseable {
             }
         }
         return Optional.empty();
+    }
+
+    public List<Message> drainMessagesForOrder(Subscription sub, String orderId, Duration window)
+            throws InterruptedException {
+        List<Message> out = new ArrayList<>();
+        Instant deadline = Instant.now().plus(window);
+        while (Instant.now().isBefore(deadline)) {
+            Duration left = Duration.between(Instant.now(), deadline);
+            if (left.isNegative() || left.isZero()) break;
+            Message msg = sub.nextMessage(left);
+            if (msg == null) break;
+            try {
+                JsonNode node = MAPPER.readTree(msg.getData());
+                JsonNode idNode = node.get("order_id");
+                if (idNode != null && orderId.equals(idNode.asText())) {
+                    out.add(msg);
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        return out;
     }
 
     @Override

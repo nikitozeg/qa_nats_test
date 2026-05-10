@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "orders.create",
+  "type": "object",
+  "required": ["order_id", "symbol", "side", "quantity", "price"],
+  "additionalProperties": false,
+  "properties": {
+    "order_id": { "type": "string", "format": "uuid" },
+    "symbol": { "type": "string", "minLength": 1, "maxLength": 10 },
+    "side": { "type": "string", "enum": ["BUY", "SELL"] },
+    "quantity": { "type": "integer", "exclusiveMinimum": 0 },
+    "price": { "type": "number", "exclusiveMinimum": 0 }
+  }
+}
